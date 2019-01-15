@@ -13,7 +13,8 @@ HEADERS += \
     Sorting/MergeSort.h \
     Sorting/QuickSort.h \
     Sorting/SelectionSort.h \
-    Strings/SplitString.h
+    Strings/SplitString.h \
+    Search/BinarySearch.h
 
 SUBDIRS += \
     Algorithms.pro
