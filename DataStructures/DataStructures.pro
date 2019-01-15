@@ -15,4 +15,5 @@ SUBDIRS += \
 HEADERS += \
     ForwardList.h \
     Matrix3d.h \
-    Vector3d.h
+    Vector3d.h \
+    PriorityQueue.h
