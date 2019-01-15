@@ -5,19 +5,15 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
-    ForwardList.cpp \
-    Vector3d.cpp
 
 HEADERS += \
-    BubbleSort.h \
-    InsertionSort.h \
-    SelectionSort.h \
-    MergeSort.h \
-    BezierCurve.h \
-    ForwardList.h \
-    Matrix3d.h \
-    SplitString.h \
-    Vector3d.h
+    Geometry/BezierCurve.h \
+    Sorting/BubbleSort.h \
+    Sorting/InsertionSort.h \
+    Sorting/MergeSort.h \
+    Sorting/QuickSort.h \
+    Sorting/SelectionSort.h \
+    Strings/SplitString.h
 
 SUBDIRS += \
     Algorithms.pro
