@@ -1,19 +1,20 @@
 #pragma once
 #include <QObject>
-#include <QGraphicsPixmapItem>
+#include <QGraphicsEllipseItem>
 #include <QTimer>
 #include <QVector2D>
 #include "platform.h"
 #include "brick.h"
 #include "gameborder.h"
 
-class Ball : public QObject, public QGraphicsPixmapItem {
+class Ball : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
 public:
     Ball(const QRectF &gameArea);
     ~Ball();
     void startMoving();
     bool isBallMoving() const;
+    qreal borderWidth() const;
 
 private:
     QTimer *timer;
@@ -41,7 +42,7 @@ private:
     // handling the case when the object with which the collision occurred is above of the ball
     void collisionOnTheTop();
     // handling the case when the object with which the collision occurred is below of the ball
-    void collisionOnTheBottom(); 
+    void collisionOnTheBottom();
     void collisionWithBrick(Brick *brick);
     void collisionWithPlatform(const Platform *platform);
     void checkForCollisions();

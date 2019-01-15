@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
         file.close();
     }
 
+    // launch application
     QApplication a(argc, argv);
     a.setStyle(QStyleFactory::create("Fusion"));
     LauncherWidget launcher;

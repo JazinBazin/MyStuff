@@ -1,8 +1,8 @@
 #include "launcherwidget.h"
+#include "gameview.h"
 #include <QPushButton>
 #include <QBoxLayout>
 #include <QVariant>
-#include "gameview.h"
 #include <QFile>
 #include <QDataStream>
 #include <QSqlDatabase>
@@ -35,7 +35,6 @@ void LauncherWidget::slotGameEnds(quint32 score) {
 LauncherWidget::LauncherWidget(QWidget *parent)
     : QWidget(parent) {
     this->setWindowFlag(Qt::MSWindowsFixedSizeDialogHint);
-    this->setWindowIcon(QIcon("ball25x25.png"));
     this->setFont(QFont("Cambria", 16));
 
     //read highscore

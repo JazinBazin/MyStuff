@@ -5,12 +5,12 @@
 #include <QtMath>
 
 Ball::Ball(const QRectF &gameArea) :
-    QObject(nullptr), QGraphicsPixmapItem(),
+    QObject(nullptr), QGraphicsEllipseItem(),
     timer(new QTimer()), direction(new QVector2D(0, 0)),
     prevPos(new QPointF()), gameBorder(new GameBorder(gameArea)),
     userLifesCount(3), score(0), ballStarted(false)
 {
-    this->setPixmap(QPixmap("ball75x75.png"));
+    this->setBrush(QBrush(Qt::green));
     QObject::connect(timer, &QTimer::timeout,
                      this, &Ball::move);
 }
@@ -20,6 +20,10 @@ Ball::~Ball() {
     delete direction;
     delete prevPos;
     delete gameBorder;
+}
+
+qreal Ball::borderWidth() const {
+    return this->pen().width();
 }
 
 void Ball::startMoving() {
@@ -93,7 +97,7 @@ void Ball::collisionWithPlatform(const Platform *platform) {
         direction->setX(0);
         direction->setY(-1);
         // calculating distance from collision point to platform center
-        qreal ballCenter = this->pos().x() + this->pixmap().width() / 2;
+        qreal ballCenter = this->pos().x() + this->rect().width() / 2;
         qreal platformCenter = platform->pos().x() + platform->rect().width() / 2;
         qreal distance = qAbs(ballCenter - platformCenter);
         // calculation rotation angle

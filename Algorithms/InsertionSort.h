@@ -30,15 +30,3 @@ void insertionSort(RAIterator first, RAIterator last) {
         *current = key;
     }
 }
-
-//template <typename T>
-//void insertionSort(T *A, size_t size) {
-//    for(size_t i = 0; i + 1 < size; ++i) {
-//        size_t j = i + 1;
-//        while(j > 0 && A[j] < A[j - 1]) {
-//            using std::swap;
-//            swap(A[j - 1], A[j]);
-//            --j;
-//        }
-//    }
-//}

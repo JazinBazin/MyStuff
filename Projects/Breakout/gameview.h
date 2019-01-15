@@ -1,7 +1,7 @@
 #pragma once
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QGraphicsPixmapItem>
+#include <QGraphicsEllipseItem>
 #include "platform.h"
 #include "ball.h"
 #include <QStack>
@@ -20,14 +20,14 @@ protected:
 
 private:
     void loadLevel(quint32 levelNumber);
-    void moveBallEndPlatformToCenter();
+    void moveBallAndPlatformToCenter();
     bool isNextLevelExists() const;
 
 private:
     QGraphicsScene *scene;
     Platform *platform;
     Ball *ball;
-    QStack<QGraphicsPixmapItem*> userLifes;
+    QStack<QGraphicsEllipseItem*> userLifes;
     quint32 levelID;
     quint32 highscore;
 

@@ -5,7 +5,7 @@
 #include <QVariant>
 
 GameResultWidget::GameResultWidget(bool isVictory, quint32 score, quint32 bestScore, const QPointF &parentCenterPos) :
-    QWidget(nullptr), currentScore(score), levelComplete(isVictory)
+    QDialog(nullptr), currentScore(score), levelComplete(isVictory)
 {
     this->setWindowFlag(Qt::WindowType::ToolTip);
     this->setFixedSize(250, 150);

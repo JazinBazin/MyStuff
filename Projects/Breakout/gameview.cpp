@@ -3,11 +3,12 @@
 #include "brick.h"
 #include <QKeyEvent>
 #include <QMouseEvent>
-#include <QGraphicsPixmapItem>
-#include <QIcon>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QFile>
+#include <QTextStream>
+#include <QHash>
 #include "gameresultwidget.h"
 
 void GameView::keyPressEvent(QKeyEvent *event)
@@ -38,7 +39,7 @@ void GameView::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void GameView::slotBallReachedTheLowerBorder() {
-    moveBallEndPlatformToCenter();
+    moveBallAndPlatformToCenter();
     // remove one image of the user's life from the scene
     scene->removeItem(userLifes.back());
     userLifes.pop_back();
@@ -50,13 +51,13 @@ void GameView::slotGameEnds(bool isVictory, quint32 score) {
     GameResultWidget *gameResults = new GameResultWidget(isVictory, score, highscore, centerPosition);
     QObject::connect(gameResults, &GameResultWidget::signalCloseWindow,
                      this, &GameView::slotCloseGameResults);
-    gameResults->show();
+    gameResults->exec();
 }
 
 void GameView::slotCloseGameResults(quint32 score, bool levelComplete) {
     if(levelComplete && isNextLevelExists()) {
         ++levelID;
-        moveBallEndPlatformToCenter();
+        moveBallAndPlatformToCenter();
         loadLevel(levelID);
     }
     else {
@@ -65,9 +66,10 @@ void GameView::slotCloseGameResults(quint32 score, bool levelComplete) {
     }
 }
 
-void GameView::moveBallEndPlatformToCenter() {
-    ball->setPos((scene->width() - ball->pixmap().width()) / 2,
-                 scene->height() - ball->pixmap().height() - platform->rect().height() - platform->borderWidth() * 2);
+void GameView::moveBallAndPlatformToCenter() {
+    ball->setPos((scene->width() - ball->rect().width() - ball->borderWidth() * 2) / 2,
+                 scene->height() - ball->rect().height() - platform->rect().height()
+                 - (platform->borderWidth() + ball->borderWidth()) * 2);
     platform->setPos((scene->width() - platform->rect().width() - platform->borderWidth() * 2) / 2,
                      scene->height() - platform->rect().height() - platform->borderWidth() * 2);
 }
@@ -131,7 +133,23 @@ GameView::GameView(quint32 levelNumber, quint32 Highscore) :
     this->setFixedSize(800, 600);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->setWindowIcon(QIcon("ball25x25.png"));
+
+    // load config
+    QHash<QString, qreal> config;
+    QFile file("config");
+    file.open(QIODevice::ReadOnly);
+    QTextStream is(&file);
+    while(!is.atEnd()) {
+        QString line = is.readLine();
+        if(line.isEmpty())
+            continue;
+        if(line.startsWith('#'))
+            continue;
+       int splitIndex = line.indexOf(':');
+       QString key = line.left(splitIndex).trimmed();
+       qreal value = line.right(line.length() - splitIndex - 1).trimmed().toDouble();
+       config[std::move(key)] = value / 100;
+    }
 
     // create graphics scene
     scene = new QGraphicsScene();
@@ -140,13 +158,12 @@ GameView::GameView(quint32 levelNumber, quint32 Highscore) :
 
     // create platform
     platform = new Platform();
-    qreal platformWidth = scene->width() * 0.25;
-    qreal platformHeight = scene->height() * 0.05;
-    platform->setRect(0, 0, platformWidth, platformHeight);
+    platform->setRect(0, 0, scene->width() * config["platform_width"], scene->height() * config["platform_height"]);
     scene->addItem(platform);
 
     // create ball
     ball = new Ball(this->sceneRect());
+    ball->setRect(0, 0, scene->width() * config["ball_diameter"], scene->width() * config["ball_diameter"]);
     scene->addItem(ball);
 
     QObject::connect(ball, &Ball::signalBallReachedTheLowerBorder,
@@ -154,12 +171,15 @@ GameView::GameView(quint32 levelNumber, quint32 Highscore) :
     QObject::connect(ball, &Ball::signalGameEnds,
                      this, &GameView::slotGameEnds);
 
-    moveBallEndPlatformToCenter();
+    moveBallAndPlatformToCenter();
 
     // create user lifes;
     for(int i = 0; i < 3; ++i) {
-        QGraphicsPixmapItem *userLife = new QGraphicsPixmapItem(QPixmap("life25x25.png"));
-        userLife->setPos(scene->width() - userLife->pixmap().width() * (i + 1), scene->height() - userLife->pixmap().height());
+        QGraphicsEllipseItem *userLife = new QGraphicsEllipseItem();
+        userLife->setRect(0, 0, scene->width() * config["user_life_diameter"], scene->width() * config["user_life_diameter"]);
+        userLife->setPos(scene->width() - userLife->rect().width() * (i + 1) - userLife->pen().width(),
+                         scene->height() - userLife->rect().height() - userLife->pen().width());
+        userLife->setBrush(QBrush(Qt::green));
         userLifes.push_back(userLife);
         scene->addItem(userLife);
     }

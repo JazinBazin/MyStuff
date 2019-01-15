@@ -1,7 +1,7 @@
 #pragma once
-#include <QWidget>
+#include <QDialog>
 
-class GameResultWidget : public QWidget
+class GameResultWidget : public QDialog
 {
     Q_OBJECT
 public:

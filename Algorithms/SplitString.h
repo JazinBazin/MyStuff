@@ -34,14 +34,3 @@ std::vector<std::string_view> splitStringView(std::string_view str, char separat
 
     return splitResult;
 }
-
-void exampleSplitString() {
-    std::string s;
-    char separator;
-    std::getline(std::cin, s);
-    std::cin.get(separator);
-    for(const auto &str : splitString(s, separator))
-        std::cout << str << "\n";
-    for(const auto &str : splitStringView(s, separator))
-        std::cout << str << "\n";
-}

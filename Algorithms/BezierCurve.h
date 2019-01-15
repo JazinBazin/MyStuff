@@ -85,14 +85,3 @@ std::vector<Point<double>> BezierCurve(const Point<int64_t> &p1, const Point<int
     calculateBezierPoints(BezierPoints, second + 1, third, p1, p2, p3);
     return BezierPoints;
 }
-
-void exampleBezierCurve() {
-    Point<int64_t> p1, p2, p3;
-    std::cin >> p1 >> p2 >> p3;
-    std::vector<Point<double>> BezierPoints = BezierCurve(p1, p2, p3);
-    for(const Point<double> &p : BezierPoints)
-        std::cout << p;
-//    std::vector<Point<double>> BezierPoints = BezierCurve({0, 0}, {2, 2}, {4, 0});
-//    for(const Point<double> &p : BezierPoints)
-//        std::cout << p;
-}
