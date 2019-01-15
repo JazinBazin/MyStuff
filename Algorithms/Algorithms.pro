@@ -14,7 +14,8 @@ HEADERS += \
     Sorting/QuickSort.h \
     Sorting/SelectionSort.h \
     Strings/SplitString.h \
-    Search/BinarySearch.h
+    Search/BinarySearch.h \
+    Sorting/HeapSort.h
 
 SUBDIRS += \
     Algorithms.pro
