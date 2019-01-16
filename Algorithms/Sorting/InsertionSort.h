@@ -14,19 +14,3 @@ void insertionSort(T *A, size_t size) {
         A[j] = key;
     }
 }
-
-template <typename RAIterator>
-void insertionSort(RAIterator first, RAIterator last) {
-    if(first == last)
-        return;
-    RAIterator beg = first, current;
-    while(++first != last) {
-        current = first;
-        auto key = *current;
-        while(current != beg && key < *(current - 1)) {
-            *current = *(current - 1);
-            --current;
-        }
-        *current = key;
-    }
-}

@@ -35,34 +35,3 @@ template <typename T>
 void mergeSort(T *A, size_t size) {
     mergeSortR(A, 0, size);
 }
-
-template <typename RAIterator>
-void merge(RAIterator first, RAIterator mid, RAIterator last) {
-    auto *merged = new typename std::iterator_traits<RAIterator>::value_type[last - first];
-    auto t = merged;
-    RAIterator i = first, j = mid;
-    while(i < mid && j < last) {
-        if(*i < *j)
-            *t++ = *i++;
-        else
-            *t++ = *j++;
-    }
-    while(i < mid)
-        *t++ = *i++;
-    while(j < last)
-        *t++ = *j++;
-    t = merged;
-    while(first != last)
-        *first++ = *t++;
-    delete [] merged;
-}
-
-template <typename RAIterator>
-void mergeSort(RAIterator first, RAIterator last) {
-    if(last - first > 1) {
-        RAIterator mid = first + (last - first) / 2;
-        mergeSort(first, mid);
-        mergeSort(mid, last);
-        merge(first, mid, last);
-    }
-}

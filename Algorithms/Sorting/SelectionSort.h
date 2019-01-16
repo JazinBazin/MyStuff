@@ -14,20 +14,3 @@ void selectionSort(T *A, size_t size) {
         swap(A[i], A[indexOfMinElement]);
     }
 }
-
-template <typename RAIterator>
-void selectionSort(RAIterator first, RAIterator last) {
-    RAIterator min, current;
-    while(first != last) {
-        min = first;
-        current = first + 1;
-        while(current != last) {
-            if(*current < *min)
-                min = current;
-            ++current;
-        }
-        using std::swap;
-        swap(*first, *min);
-        ++first;
-    }
-}

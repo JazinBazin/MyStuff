@@ -16,25 +16,3 @@ void bubbleSort(T *A, size_t size) {
         }
     }
 }
-
-template <typename RAIterator>
-void bubbleSort(RAIterator first, RAIterator last) {
-    if(first == last)
-        return;
-    bool sorted = false;
-    RAIterator beforeLast = last - 1, current, previus;
-    while(first != beforeLast && !sorted) {
-        sorted = true;
-        current = beforeLast;
-        while (current != first) {
-           previus = current - 1;
-           if(*current < *previus) {
-               sorted = false;
-               using std::swap;
-               swap(*current, *previus);
-           }
-           current = previus;
-        }
-        ++first;
-    }
-}
