@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Graphs/DijkstraAlgorithm.h"
+#include "Algorithms/Graphs/DijkstraAlgorithm.h"
 
 std::unordered_map<uint64_t, std::vector<std::pair<uint64_t, uint64_t>>> graph;
 
