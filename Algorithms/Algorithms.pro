@@ -17,7 +17,8 @@ HEADERS += \
     Search/BinarySearch.h \
     Sorting/HeapSort.h \
     Strings/ReverseString.h \
-    Strings/Search.h
+    Strings/Search.h \
+    Graphs/DijkstraAlgorithm.h
 
 SUBDIRS += \
     Algorithms.pro
