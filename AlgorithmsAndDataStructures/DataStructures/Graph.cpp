@@ -18,45 +18,51 @@ void Graph::addUnorderedEdge(uint64_t u, uint64_t v, int64_t d) {
     adjacencyLists[v].push_back({u, d});
 }
 
-void Graph::BFS(uint64_t u) {
+std::vector<uint64_t> Graph::BFS(uint64_t u) const {
     if(adjacencyLists.find(u) != adjacencyLists.end()) {
         std::vector<bool> visited(adjacencyLists.size());;
-        BFS(u, visited);
+        return BFS(u, visited);
     }
+    return std::vector<uint64_t>();
 }
 
-void Graph::BFS(uint64_t u, std::vector<bool>& visited) {
+std::vector<uint64_t> Graph::BFS(uint64_t u, std::vector<bool>& visited) const {
+    std::vector<uint64_t> vertexOrder;
     std::queue<uint64_t> q;
     q.push(u);
     while(!q.empty()) {
         uint64_t u = q.front();
         q.pop();
-        std::cout << u << "\n";
+        vertexOrder.push_back(u);
         visited[u] = true;
-        for(const AdjacentVertex& adjacent : adjacencyLists[u])
+        for(const AdjacentVertex& adjacent : adjacencyLists.at(u))
             if(!visited[adjacent.vertex])
                 q.push(adjacent.vertex);
     }
+    return vertexOrder;
 }
 
-void Graph::DFS(int64_t u) {
+std::vector<uint64_t> Graph::DFS(int64_t u) const {
     if(adjacencyLists.find(u) != adjacencyLists.end()) {
-        std::vector<bool> visited(adjacencyLists.size());;
-        DFS(u, visited);
+        std::vector<bool> visited(adjacencyLists.size());
+        std::vector<uint64_t> vertexOrder;
+        DFS(vertexOrder, u, visited);
+        return vertexOrder;
     }
+    return std::vector<uint64_t>();
 }
 
-void Graph::DFS(uint64_t u, std::vector<bool>& visited) {
+void Graph::DFS(std::vector<uint64_t> &vertexOrder, uint64_t u, std::vector<bool>& visited) const {
     visited[u] = true;
-    std::cout << u << "\n";
-    for(const AdjacentVertex& adjacent: adjacencyLists[u])
+    vertexOrder.push_back(u);
+    for(const AdjacentVertex& adjacent: adjacencyLists.at(u))
         if(!visited[adjacent.vertex])
-            DFS(adjacent.vertex, visited);
+            DFS(vertexOrder, adjacent.vertex, visited);
 }
 
 
 // the graph should contain adjacency lists for all vertices in the graph. (including empty adjacency lists)
-void Graph::DijkstraAlgorithm(uint64_t startVertex, std::vector<uint64_t> &distance, std::vector<uint64_t> &parent)
+void Graph::DijkstraAlgorithm(uint64_t startVertex, std::vector<uint64_t> &distance, std::vector<uint64_t> &parent) const
 {
     uint64_t infinity = std::numeric_limits<uint64_t>::max();
     std::vector<bool> visited(adjacencyLists.size(), false);
@@ -96,4 +102,13 @@ std::vector<uint64_t> Graph::restoreTheWay(uint64_t u, uint64_t v, const std::ve
     way.push_back(u);
     std::reverse(way.begin(), way.end());
     return way;
+}
+
+std::vector<std::vector<uint64_t>> Graph::connectedComponents() const {
+    std::vector<std::vector<uint64_t>> components;
+    std::vector<bool> visited(adjacencyLists.size(), false);
+    for(uint64_t u = 0; u < adjacencyLists.size(); ++u)
+        if(!visited[u])
+            components.push_back(BFS(u, visited));
+    return components;
 }
