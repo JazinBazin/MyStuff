@@ -12,7 +12,6 @@ SOURCES += \
 
 HEADERS += \
     Algorithms/Geometry/BezierCurve.h \
-    Algorithms/Graphs/DijkstraAlgorithm.h \
     Algorithms/Search/BinarySearch.h \
     Algorithms/Sorting/BubbleSort.h \
     Algorithms/Sorting/HeapSort.h \
