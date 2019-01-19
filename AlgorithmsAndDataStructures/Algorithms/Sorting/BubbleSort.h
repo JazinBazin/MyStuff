@@ -1,18 +1,20 @@
 #pragma once
+#include <vector>
 #include <cstddef>
 #include <utility>
 
 template <typename T>
-void bubbleSort(T *A, size_t size) {
+void bubbleSort(std::vector<T> &data) {
     bool sorted = false;
-    for(size_t i = 0; i + 1 < size && !sorted; ++i) {
+    for(size_t i = 0; i + 1 < data.size() && !sorted; ++i) {
         sorted = true;
-        for(size_t j = size - 1; j > 0; --j) {
-            if(A[j] < A[j - 1]) {
+        for(size_t j = data.size() - 1; j > 0; --j) {
+            if(data[j] < data[j - 1]) {
                 sorted = false;
                 using std::swap;
-                swap(A[j], A[j - 1]);
+                swap(data[j], data[j - 1]);
             }
         }
     }
 }
+

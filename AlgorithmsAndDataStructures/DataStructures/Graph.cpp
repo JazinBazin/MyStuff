@@ -8,8 +8,8 @@ Graph::Graph() :
 
 void Graph::addEdge(uint64_t u, uint64_t v, int64_t d) {
     adjacencyLists[u].push_back({v, d});
-    if(adjacencyLists.find(v) == adjacencyLists.end())
-        adjacencyLists[v];
+    // if vertex v not exists in graph, insert it with empty adjacency list
+    adjacencyLists[v];
 }
 
 void Graph::addUnorderedEdge(uint64_t u, uint64_t v, int64_t d) {

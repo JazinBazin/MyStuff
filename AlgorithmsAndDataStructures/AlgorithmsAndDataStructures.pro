@@ -12,7 +12,7 @@ INCLUDEPATH *= \
     $$GMOCK_SRCDIR/include
 
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++1z
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += thread
@@ -24,7 +24,11 @@ SOURCES += \
     DataStructures/ForwardList.cpp \
     DataStructures/Graph.cpp \
     DataStructures/Matrix3d.cpp \
-    DataStructures/Vector3d.cpp
+    DataStructures/Vector3d.cpp \
+    Algorithms/Geometry/BezierCurve.cpp \
+    Algorithms/Strings/ReverseString.cpp \
+    Algorithms/Strings/Search.cpp \
+    Algorithms/Strings/SplitString.cpp
 
 HEADERS += \
     Algorithms/Geometry/BezierCurve.h \

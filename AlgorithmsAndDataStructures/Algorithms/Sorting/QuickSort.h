@@ -1,31 +1,33 @@
 #pragma once
 #include <cstddef>
+#include <vector>
 #include <utility>
 
 template <typename T>
-size_t partition(T *A, size_t l, size_t r) {
-    T &pivot = A[r - 1];
+void quickSort(std::vector<T> &data) {
+    quickSortR(data, 0, data.size());
+}
+
+template <typename T>
+void quickSortR(std::vector<T> &data, size_t l, size_t r) {
+    if(l < r) {
+        size_t pi = partition(data, l, r);
+        quickSortR(data, l, pi);
+        quickSortR(data, pi + 1, r);
+    }
+}
+
+template <typename T>
+size_t partition(std::vector<T> &data, size_t l, size_t r) {
+    T &pivot = data[r - 1];
     size_t i = l;
     for(size_t j = l; j < r - 1; ++j) {
-        if(A[j] < pivot) {
-            std::swap(A[i], A[j]);
+        if(data[j] < pivot) {
+            using std::swap;
+            swap(data[i], data[j]);
             ++i;
         }
     }
-    std::swap(A[i], A[r - 1]);
+    std::swap(data[i], data[r - 1]);
     return i;
-}
-
-template <typename T>
-void quickSortR(T *A, size_t l , size_t r) {
-    if(l < r) {
-        size_t pi = partition(A, l, r);
-        quickSortR(A, l, pi);
-        quickSortR(A, pi + 1, r);
-    }
-}
-
-template <typename T>
-void quickSort(T *A, size_t size) {
-    quickSortR(A, 0, size);
 }
