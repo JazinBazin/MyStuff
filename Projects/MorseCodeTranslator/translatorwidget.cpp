@@ -16,9 +16,11 @@ void TranslatorWidget::btnLoadFromFileClicked() {
         return;
 
     QFile sourceFile(fileName);
-    if(!sourceFile.open(QIODevice::ReadOnly))
+    if(!sourceFile.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(this, this->windowTitle(),
                               "Не удалось открыть файл для чтения " + fileName);
+        return;
+    }
 
     txtEditSourseText->setPlainText(QString::fromLocal8Bit(sourceFile.readAll()));
     sourceFile.close();
@@ -55,9 +57,11 @@ void TranslatorWidget::btnSaveToFileClicked() {
         return;
 
     QFile resultFile(fileName);
-    if(!resultFile.open(QIODevice::WriteOnly))
+    if(!resultFile.open(QIODevice::WriteOnly)) {
         QMessageBox::critical(this, this->windowTitle(),
                               "Не удалось открыть файл для записи " + fileName);
+        return;
+    }
 
     resultFile.write(resultText.toLocal8Bit());
     resultFile.close();
